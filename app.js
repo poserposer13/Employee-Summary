@@ -50,7 +50,7 @@ function promptUser() {
             },
             {
                 type: "input",
-                name: "office",
+                name: "officeNumber",
                 message: "Enter Office Number",
                 when: function (employee) {
                     return employee.role === "Manager"
@@ -81,16 +81,17 @@ function promptUser() {
         ])
         .then(async employee => {
             if (employee.role === "Manager"){
-            employeeList.push(new Manager(employee));}
+            employeeList.push(new Manager(employee.name, employee.id, employee.email, employee.officeNumber));}
             else if (employee.role === 'Engineer'){
-                employeeList.push(new Engineer(employee))
+                employeeList.push(new Engineer(employee.name, employee.id, employee.email, employee.github))
             }
             else if (employee.role === "Intern"){
-                employeeList.push(new Intern(employee))
+                employeeList.push(new Intern(employee.name, employee.id, employee.email, employee.school))
             }
             if (employee.askAgain) {
                 promptUser();
             } else {
+                console.log(employeeList)
                 writeFileTo();
             };
             
