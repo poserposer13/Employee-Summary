@@ -40,23 +40,35 @@ function promptUser() {
             {
                 type: "input",
                 name: "office",
-                message: "Enter Office Number"
+                message: "Enter Office Number",
+                when: function (employee){
+                    return employee.role === "Manager"
+                }
             },
             {
                 type: "input",
                 name: "github",
-                message: "Enter GitHub"
+                message: "Enter GitHub",
+                when:function (employee){
+                    return employee.role === "Engineer"
+                }
             },
             {
                 type: "input",
                 name: "school",
-                message: "Enter School"
+                message: "Enter School",
+                when: function (employee){
+                    return employee.role === "Intern" 
+                }
             }
+            
         ])
-        .then(data => {
-            console.log(data)
+        .then(employee => {
+            console.log(employee)
+            // render(employee)
         })
 }
+promptUser();
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
