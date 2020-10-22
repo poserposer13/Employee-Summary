@@ -9,8 +9,9 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { stringify } = require("querystring");
 
-
+const employeeList = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 function promptUser() {
@@ -41,7 +42,7 @@ function promptUser() {
                 type: "input",
                 name: "office",
                 message: "Enter Office Number",
-                when: function (employee){
+                when: function (employee) {
                     return employee.role === "Manager"
                 }
             },
@@ -49,7 +50,7 @@ function promptUser() {
                 type: "input",
                 name: "github",
                 message: "Enter GitHub",
-                when:function (employee){
+                when: function (employee) {
                     return employee.role === "Engineer"
                 }
             },
@@ -57,15 +58,28 @@ function promptUser() {
                 type: "input",
                 name: "school",
                 message: "Enter School",
-                when: function (employee){
-                    return employee.role === "Intern" 
+                when: function (employee) {
+                    return employee.role === "Intern"
                 }
+            },
+            {
+                type: 'confirm',
+                name: 'askAgain',
+                message: 'Enter another employee? (just hit enter for YES)?',
+                default: true,
             }
-            
         ])
         .then(employee => {
-            console.log(employee)
-            // render(employee)
+            employeeList.push(employee);
+            if (employee.askAgain) {
+                promptUser();
+            } else {
+                employeeList.join(', ');
+                employeeList.forEach(element => {
+                    let name = element.name
+                    console.log(`Your Employees: ${name}`);
+                });
+            }
         })
 }
 promptUser();
